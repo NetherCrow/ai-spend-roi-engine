@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0e1a;
+  --surface: #131a2b;
+  --surface-2: #1b2438;
+  --border: #26314a;
+
+  --text-primary: #eef1f8;
+  --text-muted: #8792ac;
+
+  --accent: #5eead4;
+  --accent-dim: #16302c;
+
+  --danger: #f2726b;
+  --danger-dim: #3a1f1e;
+
+  --warning: #f0b75e;
+  --warning-dim: #3a2e14;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-danger: var(--danger);
+  --color-danger-dim: var(--danger-dim);
+  --color-warning: var(--warning);
+  --color-warning-dim: var(--warning-dim);
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+/* Tabular figures everywhere numbers appear in a row, so digits align */
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
