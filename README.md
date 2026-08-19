@@ -1,55 +1,71 @@
 # AI Spend ROI Engine
 
-Prototype dashboard exploring how an AI-spend visibility product (like Ramp)
-could move from "where did the money go" to "what did the money accomplish."
+**A CFO dashboard that answers "what did our AI spend accomplish?" instead of just "where did it go?"**
 
-## What's already live
+Most spend-visibility tools stop at reporting the number. This prototype layers an efficiency score, anomaly detection, and a grounded natural-language agent on top of raw transaction data — exploring what a product like Ramp could look like if it moved from AI-spend *visibility* to AI-spend *efficiency*.
 
-A real Supabase project (`vcwtiprmlwktppnhckxr`) is provisioned and seeded —
-credentials are already in `.env.local`. This is NOT a template you need to
-set up from scratch:
+**[Live demo →](#)** *(add your Vercel URL here after deploying)*
 
-- Full schema, RLS policies, and indexes applied
-- Rollup views + RPC functions (`calculate_ases`, `get_vendor_anomalies`,
-  `get_opportunities`) tested and working
-- 6 months of seeded transaction data (Feb–Jul 2026) with one planted
-  anomaly: Marketing's Anthropic spend +179.6% month-over-month in July,
-  dragging their efficiency score to 47 while every other team sits 67–71.
-  This is your demo centerpiece.
+![Executive Overview screenshot](./docs/screenshot-overview.png)
+*(replace with a real screenshot once you've run it locally — see below)*
 
-## Run it
+## The idea
+
+A finance team can see "$18,420 spent on OpenAI this month." What they can't easily see is whether that spend is *productive* — which teams are getting real output from AI spend, which vendor's costs are quietly outpacing the value it's producing, and what to actually do about it.
+
+This prototype computes a **0–100 AI Spend Efficiency Score (ASES)** per team, weighted by productivity growth against cost growth, flags month-over-month vendor-level spend anomalies with a plain-English explanation, and surfaces ranked savings opportunities — then lets a CFO ask questions in natural language and get answers grounded in real transaction data, not estimates.
+
+## What it does
+
+- **Executive Overview** — total spend, company-wide efficiency score, spend-by-team breakdown
+- **Team drill-down** — per-team ASES, top vendors, anomaly detection with severity scoring
+- **Opportunities** — ranked savings opportunities (model substitution, duplicate tooling, underused subscriptions) with estimated monthly savings
+- **Ask** — an LLM agent with tool-calling against live spend data; every answer cites the transactions it's grounded in
+
+## Architecture
+
+```
+Seeded transaction data → Supabase (Postgres)
+                                │
+                      SQL views + RPC functions
+              (rollups, ASES scoring, anomaly detection,
+                    opportunity heuristics)
+                                │
+                        Next.js API routes
+                                │
+              Next.js dashboard + Groq-hosted tool-calling agent
+```
+
+Backend logic (scoring, anomaly detection, opportunity heuristics) lives in Postgres as SQL/RPC functions rather than application code — keeps the API routes thin and makes the logic independently testable and auditable, which matters for a finance-facing tool.
+
+## Built with
+
+Next.js 15 · TypeScript · Tailwind CSS · Supabase (Postgres) · Groq (`llama-3.3-70b-versatile`) with tool-calling
+
+## Known limitations
+
+Worth being upfront about, rather than letting someone else find them:
+
+- **ASES weights are illustrative, not empirically derived.** The scoring formula demonstrates what the interaction model could feel like — it isn't validated against real business outcomes.
+- **Anomaly detection is a single rule-based threshold**, not a trained model.
+- **Data is synthetic**, generated to demonstrate the product thesis, not real spend data.
+- **"Simulate change" is a static preview**, not a live what-if engine.
+
+## Running it locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open http://localhost:3000. You need your own `GROQ_API_KEY` in
-`.env.local` for the `/ask` page to work — get one at
-https://console.groq.com/keys. Everything else works without any additional
-setup.
+Then open `http://localhost:3000`. Add your own key to `.env.local` for the `/ask` agent to work:
 
-## What's built
+```
+GROQ_API_KEY=your_key_here
+```
 
-- `/` — Executive Overview (KPI cards, spend-by-team, efficiency ring)
-- `/teams` and `/teams/[id]` — drill-down with anomaly badges, top providers
-- `/opportunities` — ranked savings opportunities with a static "Simulate
-  change" modal (deliberately not real simulation logic — see the roadmap's
-  cut list)
-- `/ask` — Groq-hosted agent (`llama-3.3-70b-versatile`) with tool-calling
-  against live Supabase data, non-streaming, cites transaction IDs
+Get one at [console.groq.com/keys](https://console.groq.com/keys). Everything else — dashboard, drill-downs, opportunities — works out of the box against the seeded database.
 
-## Still open (Day 1 hour 8.5+ onward in the roadmap)
+## License
 
-- Streaming upgrade for `/ask` (only if ahead of schedule)
-- Polish pass: loading skeletons, empty states, mobile responsiveness
-- Deploy to Vercel + push to GitHub (needs your credentials, not run from here)
-- Rehearse the 5–6 agent questions until answers are consistently grounded
-- Record the 90-second Loom
-
-## Known simplifications (say these upfront in outreach, don't let someone else find them)
-
-- ASES formula weights are illustrative, not empirically derived
-- Anomaly detection is a single rule-based threshold, not a model
-- `duplicate_tooling` fires for every team since the seed data gives every
-  team both OpenAI and Anthropic by design — real data would be sparser
+MIT — see [LICENSE](./LICENSE).
