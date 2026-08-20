@@ -24,7 +24,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ id:
   const maxProvider = Math.max(...data.topProviders.map((p) => p.amountUSD), 1);
 
   return (
-    <div className="max-w-5xl mx-auto px-8 py-10">
+    <div className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:px-8 sm:py-10 md:pb-10">
       <Link
         href="/teams"
         className="inline-flex items-center gap-1.5 text-xs text-text-muted hover:text-text-primary transition-colors mb-4"
@@ -37,7 +37,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ id:
         <p className="text-sm text-text-muted mt-1">AI spend intelligence, current period.</p>
       </header>
 
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         <KpiCard label="Spend" value={currency(data.spendUSD)} />
         <KpiCard
           label="Productivity"
@@ -47,7 +47,7 @@ export default async function TeamDetailPage({ params }: { params: Promise<{ id:
           label="Usage"
           value={`${data.usageChangePct >= 0 ? "+" : ""}${data.usageChangePct}%`}
         />
-        <div className="bg-surface border border-border rounded-lg px-5 py-4 flex items-center justify-between">
+        <div className="col-span-2 sm:col-span-1 bg-surface border border-border rounded-lg px-5 py-4 flex items-center justify-between">
           <div className="text-xs text-text-muted">Efficiency Score</div>
           <EfficiencyRing score={data.efficiencyScore} size={64} />
         </div>

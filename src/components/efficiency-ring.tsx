@@ -41,9 +41,19 @@ export function EfficiencyRing({ score, size = 128 }: { score: number; size?: nu
           style={{ transition: "stroke-dashoffset 0.6s ease" }}
         />
       </svg>
-      <div className="absolute flex flex-col items-center">
-        <span className="tabular font-semibold text-2xl text-text-primary">{score}</span>
-        <span className="text-[11px] text-text-muted mt-0.5">{tier.label}</span>
+      <div className="absolute flex flex-col items-center px-1">
+        <span
+          className="tabular font-semibold text-text-primary"
+          style={{ fontSize: Math.max(14, Math.round(size * 0.34)) }}
+        >
+          {score}
+        </span>
+        <span
+          className="text-text-muted mt-0.5 whitespace-nowrap"
+          style={{ fontSize: Math.max(8, Math.round(size * 0.12)) }}
+        >
+          {tier.label}
+        </span>
       </div>
     </div>
   );

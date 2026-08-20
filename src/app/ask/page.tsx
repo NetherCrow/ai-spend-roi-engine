@@ -10,12 +10,6 @@ interface ChatMessage {
   citedTransactionIds?: string[];
 }
 
-const SUGGESTED = [
-  "Why did AI spending increase this month?",
-  "Which team has the lowest efficiency score?",
-  "What's driving Marketing's spend this period?",
-];
-
 export default function AskPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
@@ -52,7 +46,7 @@ export default function AskPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-8 py-10 flex flex-col h-screen">
+    <div className="max-w-3xl mx-auto px-4 py-6 sm:px-8 sm:py-10 flex flex-col h-[100dvh] pb-20 md:pb-10">
       <header className="mb-6">
         <h1 className="font-display text-2xl font-semibold text-text-primary">Ask</h1>
         <p className="text-sm text-text-muted mt-1">
@@ -61,19 +55,6 @@ export default function AskPage() {
       </header>
 
       <div className="flex-1 overflow-y-auto space-y-4 mb-4">
-        {messages.length === 0 && (
-          <div className="space-y-2">
-            {SUGGESTED.map((q) => (
-              <button
-                key={q}
-                onClick={() => ask(q)}
-                className="block w-full text-left text-sm text-text-muted hover:text-accent bg-surface border border-border rounded-md px-4 py-3 transition-colors"
-              >
-                {q}
-              </button>
-            ))}
-          </div>
-        )}
         {messages.map((m, i) => (
           <div
             key={i}

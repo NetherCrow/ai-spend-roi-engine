@@ -21,7 +21,7 @@ export default async function OverviewPage() {
   const maxSpend = Math.max(...data.spendByTeam.map((t) => t.amountUSD), 1);
 
   return (
-    <div className="max-w-5xl mx-auto px-8 py-10">
+    <div className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:px-8 sm:py-10 md:pb-10">
       <header className="mb-8">
         <h1 className="font-display text-2xl font-semibold text-text-primary">Executive Overview</h1>
         <p className="text-sm text-text-muted mt-1">
@@ -29,7 +29,7 @@ export default async function OverviewPage() {
         </p>
       </header>
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <KpiCard label="AI Spend" value={currency(data.totalSpendUSD)} changePct={data.spendChangePct} changeIsGood={(pct) => pct <= 0} />
         <div className="bg-surface border border-border rounded-lg px-5 py-4 flex items-center justify-between">
           <div>

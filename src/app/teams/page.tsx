@@ -19,7 +19,7 @@ export default async function TeamsPage() {
   const data = await getOverview();
 
   return (
-    <div className="max-w-5xl mx-auto px-8 py-10">
+    <div className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:px-8 sm:py-10 md:pb-10">
       <header className="mb-8">
         <h1 className="font-display text-2xl font-semibold text-text-primary">Teams</h1>
         <p className="text-sm text-text-muted mt-1">Drill into spend intelligence by team.</p>

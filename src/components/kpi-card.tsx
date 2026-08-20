@@ -17,7 +17,7 @@ export function KpiCard({
   return (
     <div className="bg-surface border border-border rounded-lg px-5 py-4">
       <div className="text-xs text-text-muted mb-2">{label}</div>
-      <div className="tabular text-3xl font-semibold text-text-primary">{value}</div>
+      <div className="tabular text-2xl sm:text-3xl font-semibold text-text-primary">{value}</div>
       {hasChange && (
         <div
           className={`flex items-center gap-1 mt-2 text-xs tabular ${

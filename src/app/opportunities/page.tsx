@@ -18,15 +18,15 @@ export default async function OpportunitiesPage() {
   const data = await getOpportunities();
 
   return (
-    <div className="max-w-5xl mx-auto px-8 py-10">
-      <header className="mb-8 flex items-end justify-between">
+    <div className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:px-8 sm:py-10 md:pb-10">
+      <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="font-display text-2xl font-semibold text-text-primary">Opportunities</h1>
           <p className="text-sm text-text-muted mt-1">
             {data.opportunities.length} optimization opportunities identified this period.
           </p>
         </div>
-        <div className="text-right">
+        <div className="sm:text-right">
           <div className="text-xs text-text-muted mb-1">Potential savings</div>
           <div className="tabular text-2xl font-semibold text-accent">
             {currency(data.totalPotentialSavingsUSD)}/mo
@@ -34,7 +34,7 @@ export default async function OpportunitiesPage() {
         </div>
       </header>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {data.opportunities.map((o) => (
           <OpportunityCard key={o.id} opportunity={o} />
         ))}

@@ -15,35 +15,55 @@ export function NavRail() {
   const pathname = usePathname();
 
   return (
-    <nav className="w-56 shrink-0 border-r border-border bg-surface flex flex-col">
-      <div className="px-5 py-6">
-        <div className="font-display font-semibold text-lg tracking-tight text-text-primary">
-          Spend<span className="text-accent">ROI</span>
+    <>
+      <nav className="hidden md:flex w-56 shrink-0 border-r border-border bg-surface flex-col">
+        <div className="px-5 py-6">
+          <div className="font-display font-semibold text-lg tracking-tight text-text-primary">
+            Spend<span className="text-accent">ROI</span>
+          </div>
+          <div className="text-xs text-text-muted mt-0.5">AI spend intelligence</div>
         </div>
-        <div className="text-xs text-text-muted mt-0.5">AI spend intelligence</div>
-      </div>
-      <div className="flex-1 px-3 space-y-1">
+        <div className="flex-1 px-3 space-y-1">
+          {links.map(({ href, label, icon: Icon }) => {
+            const active = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                  active
+                    ? "bg-accent-dim text-accent"
+                    : "text-text-muted hover:text-text-primary hover:bg-surface-2"
+                }`}
+              >
+                <Icon size={16} strokeWidth={2} />
+                {label}
+              </Link>
+            );
+          })}
+        </div>
+        <div className="px-5 py-4 text-xs text-text-muted border-t border-border">
+          Period: <span className="tabular text-text-primary">Jul 2026</span>
+        </div>
+      </nav>
+
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 flex border-t border-border bg-surface pb-[env(safe-area-inset-bottom)]">
         {links.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (
             <Link
               key={href}
               href={href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
-                active
-                  ? "bg-accent-dim text-accent"
-                  : "text-text-muted hover:text-text-primary hover:bg-surface-2"
+              className={`flex-1 flex flex-col items-center justify-center gap-1 py-2.5 text-[11px] transition-colors ${
+                active ? "text-accent" : "text-text-muted"
               }`}
             >
-              <Icon size={16} strokeWidth={2} />
+              <Icon size={18} strokeWidth={2} />
               {label}
             </Link>
           );
         })}
-      </div>
-      <div className="px-5 py-4 text-xs text-text-muted border-t border-border">
-        Period: <span className="tabular text-text-primary">Jul 2026</span>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }

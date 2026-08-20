@@ -5,11 +5,11 @@ import type { AgentRequest, AgentResponse } from '@/types/api';
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-// Groq's model catalog shifts fairly often — llama-3.3-70b-versatile is the
-// current pick for reliable tool-calling quality. If tool calls start
-// misfiring or hallucinating args, openai/gpt-oss-120b is the next thing to
-// try; check console.groq.com/docs/models for what's current at build time.
-const MODEL = 'llama-3.3-70b-versatile';
+// Groq's model catalog shifts fairly often — llama-3.3-70b-versatile was
+// retired from the production catalog, so this is pinned to
+// openai/gpt-oss-120b. Check console.groq.com/docs/models for what's
+// current if tool calls start misfiring or returning 404s again.
+const MODEL = 'openai/gpt-oss-120b';
 
 // Groq's chat API is OpenAI-shaped: tools are { type: 'function', function: {...} },
 // not Anthropic's flat tool schema.
@@ -26,8 +26,8 @@ const QUERY_SPEND_DATA_TOOL: Groq.Chat.Completions.ChatCompletionTool = {
       type: 'object',
       properties: {
         team_name: {
-          type: 'string',
-          description: 'One of: Engineering, Marketing, Sales, Support. Omit to get all teams.',
+          type: ['string', 'null'],
+          description: 'One of: Engineering, Marketing, Sales, Support. Use null to get all teams.',
         },
       },
     },
