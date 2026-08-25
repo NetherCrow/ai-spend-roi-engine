@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
-import { supabase, CURRENT_PERIOD, previousPeriod } from '@/lib/supabase';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { CURRENT_PERIOD, previousPeriod } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase-server';
 import type { AgentRequest, AgentResponse } from '@/types/api';
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -67,7 +69,10 @@ interface SpendQueryResult {
   }[];
 }
 
-async function queryTeamSpendData(teamName?: string): Promise<SpendQueryResult | { error: string }> {
+async function queryTeamSpendData(
+  supabase: SupabaseClient,
+  teamName?: string
+): Promise<SpendQueryResult | { error: string }> {
   let teamsQuery = supabase.from('teams').select('id, name');
   if (teamName) teamsQuery = teamsQuery.ilike('name', teamName);
   const { data: teams } = await teamsQuery;
@@ -134,6 +139,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'question is required' }, { status: 400 });
   }
 
+  const supabase = await createClient();
+
   const messages: Groq.Chat.Completions.ChatCompletionMessageParam[] = [
     { role: 'system', content: SYSTEM_PROMPT },
     { role: 'user', content: question },
@@ -169,7 +176,7 @@ export async function POST(req: Request) {
       } catch {
         // malformed args from the model — proceed with no filter rather than fail the turn
       }
-      const data = await queryTeamSpendData(args.team_name);
+      const data = await queryTeamSpendData(supabase, args.team_name);
       if ('teams' in data) {
         for (const t of data.teams) {
           citedTransactionIds.push(...t.top_transactions.map((tx) => tx.transaction_id));

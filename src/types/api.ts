@@ -68,3 +68,28 @@ export interface AgentResponse {
 export interface ApiError {
   error: string;
 }
+
+export interface Team {
+  id: string;
+  name: string;
+}
+
+export interface Vendor {
+  id: string;
+  name: string;
+  category: 'llm_api' | 'coding_assistant' | 'image_gen' | 'other';
+  organizationId: string | null; // null = shared catalog vendor, visible to every org
+}
+
+export interface Employee {
+  id: string;
+  name: string;
+  role: string | null;
+  teamId: string | null;
+}
+
+export interface Profile {
+  role: 'admin' | 'viewer';
+  organizationId: string;
+  organizationName: string;
+}

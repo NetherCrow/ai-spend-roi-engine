@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { supabase, CURRENT_PERIOD } from '@/lib/supabase';
+import { CURRENT_PERIOD } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase-server';
 import type { OverviewResponse, TeamSpendSummary } from '@/types/api';
 
 // Return shape of the team_period_deltas() SQL function — the Supabase JS
@@ -13,6 +14,7 @@ interface TeamPeriodDeltas {
 }
 
 export async function GET() {
+  const supabase = await createClient();
   const { data: teams, error: teamsError } = await supabase
     .from('teams')
     .select('id, name');

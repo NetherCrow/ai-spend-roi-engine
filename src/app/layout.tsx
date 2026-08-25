@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { NavRail } from "@/components/nav-rail";
+import { AppChrome } from "@/components/app-chrome";
 import "./globals.css";
 
 const display = Space_Grotesk({
@@ -40,15 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${display.variable} ${body.variable} ${mono.variable} font-body text-text-primary antialiased`}
       >
         <ThemeProvider>
-          <div className="flex min-h-dvh">
-            <NavRail />
-            <div className="relative flex-1">
-              <div className="fixed right-4 top-4 z-30 sm:right-6 sm:top-6">
-                <ThemeToggle />
-              </div>
-              <main>{children}</main>
-            </div>
-          </div>
+          <AppChrome>{children}</AppChrome>
         </ThemeProvider>
       </body>
     </html>

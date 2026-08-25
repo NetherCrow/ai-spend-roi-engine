@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { supabase, CURRENT_PERIOD } from '@/lib/supabase';
+import { CURRENT_PERIOD } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase-server';
 import type { TeamDetailResponse, VendorSpend, Anomaly } from '@/types/api';
 
 // Hand-declared return shapes for RPC calls — see the matching note in
@@ -22,6 +23,7 @@ interface VendorAnomalyRow {
 
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const supabase = await createClient();
 
   const { data: team, error: teamError } = await supabase
     .from('teams')

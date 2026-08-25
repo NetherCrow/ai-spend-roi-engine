@@ -1,18 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { LayoutGrid, Building2, Sparkles, MessageCircleQuestion } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { LayoutGrid, Building2, Sparkles, MessageCircleQuestion, Shield, LogOut } from "lucide-react";
+import { createClient } from "@/lib/supabase-browser";
 
 const links = [
   { href: "/", label: "Overview", icon: LayoutGrid },
   { href: "/teams", label: "Teams", icon: Building2 },
   { href: "/opportunities", label: "Opportunities", icon: Sparkles },
   { href: "/ask", label: "Ask", icon: MessageCircleQuestion },
+  { href: "/admin", label: "Admin", icon: Shield },
 ];
 
 export function NavRail() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function handleSignOut() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
 
   return (
     <>
@@ -47,8 +57,17 @@ export function NavRail() {
             );
           })}
         </div>
-        <div className="px-5 py-4 text-xs text-text-muted border-t border-border">
-          Period: <span className="font-mono tabular-nums text-text-primary">Jul 2026</span>
+        <div className="px-5 py-4 text-xs text-text-muted border-t border-border space-y-3">
+          <div>
+            Period: <span className="font-mono tabular-nums text-text-primary">Jul 2026</span>
+          </div>
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors"
+          >
+            <LogOut size={14} strokeWidth={2} />
+            Sign out
+          </button>
         </div>
       </nav>
 
@@ -68,6 +87,13 @@ export function NavRail() {
             </Link>
           );
         })}
+        <button
+          onClick={handleSignOut}
+          className="flex-1 flex flex-col items-center justify-center gap-1 py-2.5 text-[11px] text-text-muted transition-colors"
+        >
+          <LogOut size={18} strokeWidth={2} />
+          Exit
+        </button>
       </nav>
     </>
   );

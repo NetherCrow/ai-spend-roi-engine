@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
-import { supabase, CURRENT_PERIOD } from '@/lib/supabase';
+import { CURRENT_PERIOD } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase-server';
 import type { OpportunitiesResponse, OpportunityItem } from '@/types/api';
 
 export async function GET() {
+  const supabase = await createClient();
   const { data, error } = await supabase.rpc('get_opportunities', { p_period: CURRENT_PERIOD });
 
   if (error) {
