@@ -18,14 +18,14 @@ export function OpportunityCard({ opportunity }: { opportunity: OpportunityItem 
 
   return (
     <>
-      <div className="bg-surface border border-border rounded-lg px-5 py-4 flex flex-col">
-        <span className="text-[11px] uppercase tracking-wide text-accent mb-2">
+      <div className="card-hover bg-surface border border-border rounded-xl px-5 py-4 flex flex-col h-full">
+        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent mb-2">
           {TYPE_LABEL[opportunity.type]}
         </span>
         <h3 className="text-sm font-medium text-text-primary mb-1.5">{opportunity.title}</h3>
         <p className="text-sm text-text-muted flex-1">{opportunity.description}</p>
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
-          <span className="tabular text-lg font-semibold text-accent">
+          <span className="font-mono tabular-nums text-lg font-semibold text-accent">
             {currency(opportunity.estimatedMonthlySavingsUSD)}/mo
           </span>
           <button
@@ -39,11 +39,11 @@ export function OpportunityCard({ opportunity }: { opportunity: OpportunityItem 
 
       {open && (
         <div
-          className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4"
           onClick={() => setOpen(false)}
         >
           <div
-            className="bg-surface border border-border rounded-lg max-w-md w-full px-6 py-5"
+            className="bg-surface border border-border rounded-xl max-w-md w-full px-6 py-5 animate-rise"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between mb-4">
@@ -53,7 +53,7 @@ export function OpportunityCard({ opportunity }: { opportunity: OpportunityItem 
               </button>
             </div>
             <p className="text-sm text-text-muted mb-4">{opportunity.staticSimulationDetails}</p>
-            <div className="bg-accent-dim border border-accent/30 rounded-md px-4 py-3 tabular text-accent text-sm">
+            <div className="bg-accent-dim border border-accent/30 rounded-md px-4 py-3 font-mono tabular-nums text-accent text-sm">
               Projected monthly savings: {currency(opportunity.estimatedMonthlySavingsUSD)}
             </div>
           </div>

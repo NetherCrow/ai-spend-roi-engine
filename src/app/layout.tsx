@@ -1,43 +1,55 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
+import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { NavRail } from "@/components/nav-rail";
+import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const display = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  variable: "--font-display",
+  weight: ["500", "700"],
+});
+const body = Inter({ subsets: ["latin"], variable: "--font-body" });
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400", "500"],
 });
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
+export const metadata: Metadata = { title: "Overview — AI Spend" };
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "AI Spend ROI Engine",
-  description: "From AI-spend visibility to AI-spend efficiency.",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* prevents a light->dark flash on load */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var stored = localStorage.getItem("theme");
+                var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+                document.documentElement.classList.toggle("dark", dark);
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} antialiased`}
+        className={`${display.variable} ${body.variable} ${mono.variable} font-body text-text-primary antialiased`}
       >
-        <div className="flex min-h-screen">
-          <NavRail />
-          <main className="flex-1 min-w-0">{children}</main>
-        </div>
+        <ThemeProvider>
+          <div className="flex min-h-dvh">
+            <NavRail />
+            <div className="relative flex-1">
+              <div className="fixed right-4 top-4 z-30 sm:right-6 sm:top-6">
+                <ThemeToggle />
+              </div>
+              <main>{children}</main>
+            </div>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

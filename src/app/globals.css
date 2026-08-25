@@ -1,50 +1,92 @@
 @import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+/* v4 defaults dark mode to a media query — this switches it back to the
+   .dark class strategy the theme-provider toggles on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg: #0a0e1a;
-  --surface: #131a2b;
-  --surface-2: #1b2438;
-  --border: #26314a;
-
-  --text-primary: #eef1f8;
-  --text-muted: #8792ac;
-
-  --accent: #5eead4;
-  --accent-dim: #16302c;
-
-  --danger: #f2726b;
-  --danger-dim: #3a1f1e;
-
-  --warning: #f0b75e;
-  --warning-dim: #3a2e14;
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #eef1f5;
+  --border: #e2e5eb;
+  --text-primary: #12151a;
+  --text-muted: #676e7a;
+  --accent: #3654ff;
+  --accent-dim: #3654ff14;
+  --good: #0ea875;
+  --good-dim: #0ea87514;
+  --warn: #e38a1d;
+  --warn-dim: #e38a1d14;
+  --danger: #dc3545;
+  --danger-dim: #dc354514;
 }
 
-@theme inline {
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
-  --color-border: var(--border);
-  --color-text-primary: var(--text-primary);
-  --color-text-muted: var(--text-muted);
-  --color-accent: var(--accent);
-  --color-accent-dim: var(--accent-dim);
-  --color-danger: var(--danger);
-  --color-danger-dim: var(--danger-dim);
-  --color-warning: var(--warning);
-  --color-warning-dim: var(--warning-dim);
-  --font-display: var(--font-space-grotesk);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
+.dark {
+  --bg: #0a0d12;
+  --surface: #12161d;
+  --surface-2: #1b2029;
+  --border: #262c36;
+  --text-primary: #f2f4f7;
+  --text-muted: #8c93a0;
+  --accent: #6e86ff;
+  --accent-dim: #6e86ff1f;
+  --good: #34d399;
+  --good-dim: #34d3991f;
+  --warn: #f5a93b;
+  --warn-dim: #f5a93b1f;
+  --danger: #f2545b;
+  --danger-dim: #f2545b1f;
 }
+
+html { color-scheme: light; }
+html.dark { color-scheme: dark; }
 
 body {
-  background: var(--bg);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
+  background-color: var(--bg);
+  font-family: var(--font-body), ui-sans-serif, system-ui;
 }
 
-/* Tabular figures everywhere numbers appear in a row, so digits align */
-.tabular {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-rise {
+  animation: rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* tick-mark texture for meters / progress tracks */
+.meter-track {
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--border) 0px,
+    var(--border) 1px,
+    transparent 1px,
+    transparent 10%
+  );
+}
+
+/* soft radial accent wash behind the overview hero card */
+.hero-mesh {
+  background-image:
+    radial-gradient(120% 100% at 100% 0%, var(--accent-dim), transparent 55%),
+    radial-gradient(80% 80% at 0% 100%, var(--accent-dim), transparent 60%);
+}
+
+/* consistent lift-on-hover for interactive cards */
+.card-hover {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  box-shadow: 0 12px 24px -16px rgba(0, 0, 0, 0.25);
 }

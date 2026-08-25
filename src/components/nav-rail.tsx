@@ -17,11 +17,16 @@ export function NavRail() {
   return (
     <>
       <nav className="hidden md:flex w-56 shrink-0 border-r border-border bg-surface flex-col">
-        <div className="px-5 py-6">
-          <div className="font-display font-semibold text-lg tracking-tight text-text-primary">
-            Spend<span className="text-accent">ROI</span>
+        <div className="px-5 py-6 flex items-center gap-2.5">
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-[11px] font-display font-bold text-white">
+            R
+          </span>
+          <div>
+            <div className="font-display font-semibold text-sm leading-none tracking-tight text-text-primary">
+              Spend<span className="text-accent">ROI</span>
+            </div>
+            <div className="text-[11px] text-text-muted mt-1">AI spend intelligence</div>
           </div>
-          <div className="text-xs text-text-muted mt-0.5">AI spend intelligence</div>
         </div>
         <div className="flex-1 px-3 space-y-1">
           {links.map(({ href, label, icon: Icon }) => {
@@ -43,7 +48,7 @@ export function NavRail() {
           })}
         </div>
         <div className="px-5 py-4 text-xs text-text-muted border-t border-border">
-          Period: <span className="tabular text-text-primary">Jul 2026</span>
+          Period: <span className="font-mono tabular-nums text-text-primary">Jul 2026</span>
         </div>
       </nav>
 
