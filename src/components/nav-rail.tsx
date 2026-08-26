@@ -9,7 +9,7 @@ const links = [
   { href: "/", label: "Overview", icon: LayoutGrid },
   { href: "/teams", label: "Teams", icon: Building2 },
   { href: "/opportunities", label: "Opportunities", icon: Sparkles },
-  { href: "/ask", label: "Ask", icon: MessageCircleQuestion },
+  { href: "/ask", label: "ASK", icon: MessageCircleQuestion },
   { href: "/admin", label: "Admin", icon: Shield },
 ];
 
