@@ -1,8 +1,9 @@
-import { getSupabase, CURRENT_PERIOD } from '@/lib/supabase';
+import { CURRENT_PERIOD } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase-server';
 import type { OpportunitiesResponse, OpportunityItem } from '@/types/api';
 
 export async function fetchOpportunities(): Promise<OpportunitiesResponse> {
-  const supabase = getSupabase();
+  const supabase = await createClient();
   const { data, error } = await supabase.rpc('get_opportunities', { p_period: CURRENT_PERIOD });
 
   if (error) {

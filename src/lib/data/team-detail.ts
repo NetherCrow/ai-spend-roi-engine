@@ -1,9 +1,10 @@
-import { getSupabase, CURRENT_PERIOD } from '@/lib/supabase';
+import { CURRENT_PERIOD } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase-server';
 import type { TeamDetailResponse, VendorSpend, Anomaly } from '@/types/api';
 import type { TeamPeriodDeltas, VendorAnomalyRow } from './types';
 
 export async function fetchTeamDetail(id: string): Promise<TeamDetailResponse> {
-  const supabase = getSupabase();
+  const supabase = await createClient();
   const { data: team, error: teamError } = await supabase
     .from('teams')
     .select('id, name')

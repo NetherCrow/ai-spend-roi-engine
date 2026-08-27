@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutGrid, Building2, Sparkles, MessageCircleQuestion, Shield, LogOut } from "lucide-react";
+import { LayoutGrid, Building2, Sparkles, MessageCircleQuestion, Shield, LogOut, Binoculars } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
 
 const links = [
@@ -26,10 +26,10 @@ export function NavRail() {
 
   return (
     <>
-      <nav className="hidden md:flex w-56 shrink-0 border-r border-border bg-surface flex-col">
+      <nav className="glass hidden md:flex w-56 shrink-0 flex-col rounded-none">
         <div className="px-5 py-6 flex items-center gap-2.5">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-[11px] font-display font-bold text-white">
-            R
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-accent text-white">
+            <Binoculars size={15} strokeWidth={2.25} />
           </span>
           <div>
             <div className="font-display font-semibold text-sm leading-none tracking-tight text-text-primary">
@@ -71,7 +71,7 @@ export function NavRail() {
         </div>
       </nav>
 
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 flex border-t border-border bg-surface pb-[env(safe-area-inset-bottom)]">
+      <nav className="glass md:hidden fixed bottom-0 inset-x-0 z-40 flex border-t-0 pb-[env(safe-area-inset-bottom)]">
         {links.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (

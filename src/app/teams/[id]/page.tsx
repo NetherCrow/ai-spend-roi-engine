@@ -1,26 +1,16 @@
-import { headers } from "next/headers";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { KpiCard } from "@/components/kpi-card";
 import { EfficiencyGauge } from "@/components/efficiency-gauge";
 import { AnomalyBadge } from "@/components/anomaly-badge";
-import type { TeamDetailResponse } from "@/types/api";
-
-async function getTeam(id: string): Promise<TeamDetailResponse> {
-  const h = await headers();
-  const host = h.get("host");
-  const protocol = host?.startsWith("localhost") ? "http" : "https";
-  const res = await fetch(`${protocol}://${host}/api/team/${id}`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to load team");
-  return res.json();
-}
+import { fetchTeamDetail } from "@/lib/data/team-detail";
 
 const currency = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 export default async function TeamDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const data = await getTeam(id);
+  const data = await fetchTeamDetail(id);
   const maxProvider = Math.max(...data.topProviders.map((p) => p.amountUSD), 1);
 
   return (

@@ -1,21 +1,11 @@
-import { headers } from "next/headers";
 import { OpportunityCard } from "@/components/opportunity-card";
-import type { OpportunitiesResponse } from "@/types/api";
-
-async function getOpportunities(): Promise<OpportunitiesResponse> {
-  const h = await headers();
-  const host = h.get("host");
-  const protocol = host?.startsWith("localhost") ? "http" : "https";
-  const res = await fetch(`${protocol}://${host}/api/opportunities`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to load opportunities");
-  return res.json();
-}
+import { fetchOpportunities } from "@/lib/data/opportunities";
 
 const currency = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 export default async function OpportunitiesPage() {
-  const data = await getOpportunities();
+  const data = await fetchOpportunities();
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:px-8 sm:py-10 md:pb-10">

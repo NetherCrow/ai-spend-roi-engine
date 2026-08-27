@@ -1,9 +1,10 @@
-import { getSupabase, CURRENT_PERIOD } from '@/lib/supabase';
+import { CURRENT_PERIOD } from '@/lib/supabase';
+import { createClient } from '@/lib/supabase-server';
 import type { OverviewResponse, TeamSpendSummary } from '@/types/api';
 import type { TeamPeriodDeltas } from './types';
 
 export async function fetchOverview(): Promise<OverviewResponse> {
-  const supabase = getSupabase();
+  const supabase = await createClient();
   const { data: teams, error: teamsError } = await supabase
     .from('teams')
     .select('id, name');

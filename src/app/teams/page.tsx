@@ -1,22 +1,12 @@
-import { headers } from "next/headers";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import type { OverviewResponse } from "@/types/api";
-
-async function getOverview(): Promise<OverviewResponse> {
-  const h = await headers();
-  const host = h.get("host");
-  const protocol = host?.startsWith("localhost") ? "http" : "https";
-  const res = await fetch(`${protocol}://${host}/api/overview`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to load overview");
-  return res.json();
-}
+import { fetchOverview } from "@/lib/data/overview";
 
 const currency = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 export default async function TeamsPage() {
-  const data = await getOverview();
+  const data = await fetchOverview();
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6 pb-24 sm:px-8 sm:py-10 md:pb-10">

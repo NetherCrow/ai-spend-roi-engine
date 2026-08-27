@@ -12,7 +12,7 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
   if (NO_CHROME_PATHS.includes(pathname)) {
     return (
       <div className="relative min-h-dvh">
-        <div className="fixed right-4 top-4 z-30 sm:right-6 sm:top-6">
+        <div className="glass fixed right-4 top-4 z-30 rounded-full p-1 sm:right-6 sm:top-6">
           <ThemeToggle />
         </div>
         <main>{children}</main>
@@ -24,7 +24,7 @@ export function AppChrome({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-dvh">
       <NavRail />
       <div className="relative flex-1">
-        <div className="fixed right-4 top-4 z-30 sm:right-6 sm:top-6">
+        <div className="glass fixed right-4 top-4 z-30 rounded-full p-1 sm:right-6 sm:top-6">
           <ThemeToggle />
         </div>
         <main>{children}</main>

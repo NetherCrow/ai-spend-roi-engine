@@ -1,23 +1,13 @@
-import { headers } from "next/headers";
 import Link from "next/link";
 import { ArrowDownRight, ArrowUpRight, ArrowRight } from "lucide-react";
 import { EfficiencyGauge } from "@/components/efficiency-gauge";
-import type { OverviewResponse } from "@/types/api";
-
-async function getOverview(): Promise<OverviewResponse> {
-  const h = await headers();
-  const host = h.get("host");
-  const protocol = host?.startsWith("localhost") ? "http" : "https";
-  const res = await fetch(`${protocol}://${host}/api/overview`, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to load overview");
-  return res.json();
-}
+import { fetchOverview } from "@/lib/data/overview";
 
 const currency = (n: number) =>
   n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 
 export default async function OverviewPage() {
-  const data = await getOverview();
+  const data = await fetchOverview();
   const maxSpend = Math.max(...data.spendByTeam.map((t) => t.amountUSD), 1);
   const spendIsGood = data.spendChangePct <= 0;
   const SpendTrendIcon = spendIsGood ? ArrowDownRight : ArrowUpRight;

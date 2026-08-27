@@ -43,7 +43,7 @@ export function OpportunityCard({ opportunity }: { opportunity: OpportunityItem 
           onClick={() => setOpen(false)}
         >
           <div
-            className="bg-surface border border-border rounded-xl max-w-md w-full px-6 py-5 animate-rise"
+            className="glass-strong rounded-xl max-w-md w-full px-6 py-5 animate-rise"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between mb-4">
